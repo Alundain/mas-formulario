@@ -1,7 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { object } from 'yup/lib/locale';
 
 const Formulario = () => {
     
@@ -24,18 +23,21 @@ const Formulario = () => {
             .min (3, "El apellido es muy corto")
             .required("Por favor ingrese el apellido correctamente"),
             
-            email: Yup.string().email
+            email: Yup.string()
             .email("Correo no valido")
             .min(3, "Este correo electrónico es incorrecto")
             .required("Por favor, ingresa un correo electrónico válido"),
-            /*
+            
             password: Yup.string()
-            .min("La clave debe contener más de 3 caractes")
-            .require ("Por favor ingrese una contraseña"),
+            .min(3, "La clave debe contener más de 3 caractes")
+            .required("Por favor ingrese una contraseña"),
+
             comfirPass: Yup.string()
-            .min("La clave debe contener más de 3 caractes")
-            .require ("Por favor ingrese la confirmación de la contraseña"),*/
+            .oneOf([Yup.ref('password')])
+            .min(3, "La clave debe contener más de 3 caractes")
+            .required("Por favor ingrese la confirmación de la contraseña"),
         })}
+
         onSubmit={(values, {setSubmitting}) =>{
             const timeOut = setTimeout(( )=>{
                 console.log(values);
@@ -71,6 +73,14 @@ const Formulario = () => {
                          <label className="col-sm-2 col-form-label">Email  </label>
                          <Field id= 'email' type="text" placeholder="Email" className="form-control" name='email'/>
                          <ErrorMessage name="email">{(msg) => <p>{msg}</p>}</ErrorMessage>
+
+                         <label className="col-sm-2 col-form-label">Password</label>
+                         <Field  id= 'password' type="text" placeholder="Password" className="form-control" name='password'/>
+                         {errors.password && touched.password && <p>{errors.password}</p>}
+
+                         <label className="col-sm-2 col-form-label"> Confirm Password</label>
+                         <Field  id= 'confirmPass' type="text" placeholder="Confirmar password" className="form-control" name='password'/>
+                         {errors.comfirPass && touched.comfirPass && <p>{errors.comfirPass}</p>}
                         <hr>
                         </hr>
     
