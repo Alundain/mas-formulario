@@ -29,11 +29,12 @@ const Formulario = () => {
             .required("Por favor, ingresa un correo electrónico válido"),
             
             password: Yup.string()
+            .equals([Yup.ref('comfirPass'), null], "las contraseñas no son iguales")
             .min(3, "La clave debe contener más de 3 caractes")
             .required("Por favor ingrese una contraseña"),
 
             comfirPass: Yup.string()
-            .oneOf([Yup.ref('password')])
+            .equals([Yup.ref('password'), null], "las contraseñas no son iguales")
             .min(3, "La clave debe contener más de 3 caractes")
             .required("Por favor ingrese la confirmación de la contraseña"),
         })}
@@ -75,11 +76,11 @@ const Formulario = () => {
                          <ErrorMessage name="email">{(msg) => <p>{msg}</p>}</ErrorMessage>
 
                          <label className="col-sm-2 col-form-label">Password</label>
-                         <Field  id= 'password' type="text" placeholder="Password" className="form-control" name='password'/>
+                         <Field  id= 'password' type="password" placeholder="Password" className="form-control" name='password'/>
                          {errors.password && touched.password && <p>{errors.password}</p>}
 
                          <label className="col-sm-2 col-form-label"> Confirm Password</label>
-                         <Field  id= 'confirmPass' type="text" placeholder="Confirmar password" className="form-control" name='password'/>
+                         <Field  id= 'comfirPass' type="password" placeholder="Confirmar password" className="form-control" name='comfirPass'/>
                          {errors.comfirPass && touched.comfirPass && <p>{errors.comfirPass}</p>}
                         <hr>
                         </hr>
